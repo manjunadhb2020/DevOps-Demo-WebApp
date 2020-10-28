@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/manjunadhb2020/DevOps-Demo-WebApp.git']]])
-                
+                  }
             }
         }
                        
