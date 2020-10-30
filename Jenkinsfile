@@ -25,7 +25,15 @@ pipeline {
                 echo 'building the applicaiton...'
                 sh 'mvn clean install' 
             }
-        }               
+        }   
+        
+        stage('Deploy - Staging') {
+            steps {
+                sh './deploy staging'
+               echo 'deploying the application'
+            }
+        }
+        
         stage('test') {
             steps {
                 echo 'testing the application...'
