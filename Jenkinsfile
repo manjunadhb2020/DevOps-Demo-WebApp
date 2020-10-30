@@ -23,6 +23,7 @@ pipeline {
        stage('build') {
             steps {
                 echo 'building the applicaiton...'
+                tool name: 'Maven' type: 'maven'
                 sh 'mvn clean install' 
             }
         }               
