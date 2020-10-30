@@ -24,15 +24,19 @@ pipeline {
             steps {
                 echo 'building the applicaiton...'
                 sh 'mvn clean install' 
+                sh "mv target/*.war target/casestudyweb.war"
             }
         }   
         
-        stage('Deploy - Staging') {
-            steps {
-                sh './deploy staging'
-               echo 'deploying the application'
+        stage('Deploy-test') {
+            sshagent(['tomcat-test-server-deploy']) {
+                   sh 'scp -o StrictHostKeyChecking=no target/casestudyweb.war testserver@40.88.6.134:/opt/tomcat8/webapps/'
+                   sh 'shh testserver@40.88.6.134 /opt/tomcat8/bin/shutdown.sh'
+                   sh 'shh testserver@40.88.6.134 /opt/tomcat8/bin/startup.sh'  
+                
+                }
             }
-        }
+        
         
         stage('test') {
             steps {
