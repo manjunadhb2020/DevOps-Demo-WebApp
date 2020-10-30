@@ -30,10 +30,11 @@ pipeline {
         
         stage('Deploy-test') {
             sshagent(['tomcat-test-server-deploy']) {
+                steps {
                    sh 'scp -o StrictHostKeyChecking=no target/casestudyweb.war testserver@40.88.6.134:/opt/tomcat8/webapps/'
                    sh 'shh testserver@40.88.6.134 /opt/tomcat8/bin/shutdown.sh'
                    sh 'shh testserver@40.88.6.134 /opt/tomcat8/bin/startup.sh'  
-                
+                }
                 }
             }
         
