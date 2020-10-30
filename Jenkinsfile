@@ -24,21 +24,22 @@ pipeline {
             steps {
                 echo 'building the applicaiton...'
                 sh 'mvn clean install' 
-                sh "mv target/*.war target/casestudyweb.war"
+                // sh "mv target/*.war target/QAWebapp.war"
             }
         }   
         
         stage('Deploy-test') {
-                   steps {
-                       sshagent(['tomcat-test-server-deploy']) {
-                   sh 'scp -o StrictHostKeyChecking=no target/casestudyweb.war testserver@40.88.6.134:/opt/tomcat8/webapps/'
-                   sh 'ssh testserver@40.88.6.134 /opt/tomcat8/bin/shutdown.sh'
-                   sh 'ssh testserver@40.88.6.134 /opt/tomcat8/bin/startup.sh'  
+                  steps {
+                      sshagent(['tomcat-test-server-deploy']) {
+                  sh 'scp -o StrictHostKeyChecking=no target/AVNCommunication-1.0.war testserver@40.88.6.134:/var/lib/tomcat8/webapps/QAWebapp.war'
+                   sh 'scp -o StrictHostKeyChecking=no -r target/AVNCommunication-1.0 testserver@40.88.6.134:/var/lib/tomcat8/webapps/QAWebapp'
+                   
                 
                 }
             }
         }
-        
+
+ 
         stage('test') {
             steps {
                 echo 'testing the application...'
@@ -47,3 +48,4 @@ pipeline {
         }        
     }
 }
+
